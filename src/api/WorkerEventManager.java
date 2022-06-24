@@ -34,7 +34,7 @@ public class WorkerEventManager implements EventManager {
     @Override
     public void addNotifier(Notifier ntfr) throws EventManagerException {
         if (notifiers.length == MAX) {
-            increaseArraySize();
+            increaseNotifierArraySize();
         }
 
         this.notifiers[count] = ntfr;
@@ -58,7 +58,7 @@ public class WorkerEventManager implements EventManager {
     @Override
     public void reportEvent(Event event) throws EventManagerException {
         if (events.length == MAX) {
-            increaseArraySize();
+            increaseEventArraySize();
         }
 
         this.events[count] = event;
@@ -68,14 +68,14 @@ public class WorkerEventManager implements EventManager {
 
     @Override
     public void removeAllEvents() {
-        for(int i = events.length; i < 0; i--) {
+        for (int i = events.length; i < 0; i--) {
             events[i] = events[events.length - 1];
         }
         if (events.length == 0) {
             System.out.println("All events removed.");
         }
     }
-    
+
     @Override
     public void removeEvent(Event event) throws EventManagerException {
         if (findEvent(event) != -1) {
@@ -90,12 +90,14 @@ public class WorkerEventManager implements EventManager {
 
     @Override
     public Event[] getEvent(EventPriority ep) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for (int i = 0; i < events.length; i++) {
+            
+        }
+        return null;
     }
 
     @Override
-    public Event[] getEvent(Class type
-    ) {
+    public Event[] getEvent(Class type) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -111,13 +113,22 @@ public class WorkerEventManager implements EventManager {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public void increaseArraySize() {
+    public void increaseNotifierArraySize() {
         Notifier[] temp = new Notifier[notifiers.length * 2];
 
         for (int i = 0; i < notifiers.length; i++) {
             temp[i] = notifiers[i];
         }
         notifiers = temp;
+    }
+
+    public void increaseEventArraySize() {
+        Event[] temp = new Event[events.length * 2];
+
+        for (int i = 0; i < events.length; i++) {
+            temp[i] = events[i];
+        }
+        events = temp;
     }
 
     private int findNotify(Notifier notify) {

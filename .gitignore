@@ -1,0 +1,10 @@
+/build/
+<<<<<<< HEAD
+<<<<<<< Upstream, based on origin/master
+/nbproject/private/
+=======
+/dist/
+>>>>>>> c1aa760 almost done
+=======
+/dist/
+>>>>>>> master

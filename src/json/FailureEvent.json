@@ -1,0 +1,17 @@
+{
+  "groupname":"Grupo21",
+  "groupkey": "xptoififirieidifie",
+  "event": {
+    "uuid": "abcd",
+    "data": "2022-05-30",
+    "priority": "High",
+    "eventtype": "Failure",
+    "title": "Avaria de máquina",
+    "constructionsitename": "cs1",
+    "details": "...",
+    "equipment": "Retro XOP1"
+  }
+}
+
+
+

@@ -39,6 +39,8 @@ public class WorkerEventManager implements EventManager {
 
         this.notifiers[count] = ntfr;
         this.count++;
+        System.out.println("Notifier added.");
+
     }
 
     @Override
@@ -49,6 +51,7 @@ public class WorkerEventManager implements EventManager {
             }
             notifiers[count - 1] = null;
             count--;
+            System.out.println("Notifier removed.");
         }
     }
 
@@ -57,22 +60,31 @@ public class WorkerEventManager implements EventManager {
         if (events.length == MAX) {
             increaseArraySize();
         }
-        
+
         this.events[count] = event;
         this.count++;
+        System.out.println("Event added. ");
     }
 
     @Override
     public void removeAllEvents() {
-        
+        for(int i = events.length; i < 0; i--) {
+            events[i] = events[events.length - 1];
+        }
+        if (events.length == 0) {
+            System.out.println("All events removed.");
+        }
     }
-
+    
     @Override
     public void removeEvent(Event event) throws EventManagerException {
-        if (findEvent(event) != -1 ) {
-            // for (int i = findEvent(event)) {
-                
-            //}
+        if (findEvent(event) != -1) {
+            for (int i = findEvent(event); i < count - 1; i++) {
+                events[i] = events[i + 1];
+            }
+            events[count - 1] = null;
+            count--;
+            System.out.println("Event removed.");
         }
     }
 
@@ -82,17 +94,20 @@ public class WorkerEventManager implements EventManager {
     }
 
     @Override
-    public Event[] getEvent(Class type) {
+    public Event[] getEvent(Class type
+    ) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Event[] getEvent(LocalDate ld) {
+    public Event[] getEvent(LocalDate ld
+    ) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Event[] getEvent(LocalDate ld, LocalDate ld1) {
+    public Event[] getEvent(LocalDate ld, LocalDate ld1
+    ) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

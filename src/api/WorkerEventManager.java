@@ -90,10 +90,14 @@ public class WorkerEventManager implements EventManager {
 
     @Override
     public Event[] getEvent(EventPriority ep) {
+        Event[] priority = new Event[events.length];
+        int j = 0;
         for (int i = 0; i < events.length; i++) {
-            
+            if (events[i].getPriority().equals(getEvent(ep))) {
+                priority[j++] = events[i];
+            }
         }
-        return null;
+        return priority;
     }
 
     @Override
@@ -102,15 +106,20 @@ public class WorkerEventManager implements EventManager {
     }
 
     @Override
-    public Event[] getEvent(LocalDate ld
-    ) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Event[] getEvent(LocalDate ld) {
+        Event[] localDate = new Event[events.length];
+        int j = 0;
+        for (int i = 0; i < events.length; i++) {
+            if (events[i].getDate().equals(getEvent(ld))) {
+                localDate[j++] = events[i];
+            }
+        }
+        return localDate;
     }
 
     @Override
-    public Event[] getEvent(LocalDate ld, LocalDate ld1
-    ) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Event[] getEvent(LocalDate ld, LocalDate ld1) {
+        return null;
     }
 
     public void increaseNotifierArraySize() {

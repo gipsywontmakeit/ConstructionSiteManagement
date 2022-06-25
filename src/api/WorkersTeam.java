@@ -69,31 +69,31 @@ public class WorkersTeam implements Team {
 
     @Override
     public Employee[] getEmployees(String string) {
-        for (Employee employee : this.employees) {
-            if (employee.equals(string)) {
-                System.out.println("Name:" + employee.getName());
+        Employee[] name = new Employee[employees.length];
+        int j = 0;
+        for (int i = 0; i < employees.length; i++) {
+            if(employees[i].getName().equals(string)) {
+                name[j++] = employees[i];
             }
         }
-        return null;
+        return name;
     }
 
     @Override
     public Employee[] getEmployees(EmployeeType et) {
-        for (Employee employee : this.employees) {
-            if (employee.equals(et)) {
-                System.out.println("Type:" + employee.getType());
+        Employee[] type = new Employee[employees.length];
+        int j = 0;
+        for (int i = 0; i < employees.length; i++) {
+            if (employees[i].getType().equals(et)) {
+                type[j++] = employees[i];
             }
         }
-        return null;
+        return type;
     }
 
     @Override
     public Employee[] getEmployees() {
-        for (Employee employee : this.employees) {
-            System.out.println("Name" + employee.getName() + "\n");
-            System.out.println("Type:" + employee.getType());
-        }
-        return null;
+        return this.employees;
     }
     
     /**

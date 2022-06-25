@@ -45,7 +45,7 @@ public class RegConstructionSite implements ConstructionSite {
      * array with the team`s given to the construction site
      */
     
-    private Team[] team = new Team[MAX];
+    private Team[] teams = new Team[MAX];
 
     /**
      * license date of the construction permit
@@ -63,7 +63,7 @@ public class RegConstructionSite implements ConstructionSite {
         this.permit = permit;
         this.license = license;
         this.responsible = responsible;
-        this.team = new Team[MAX];
+        this.teams = new Team[MAX];
 
     }
 
@@ -106,11 +106,11 @@ public class RegConstructionSite implements ConstructionSite {
     @Override
     public void addTeam(Team team) throws ConstructionSiteException {
 
-        if (this.team.length == this.MAX) {
+        if (this.teams.length == this.MAX) {
             increaseTeamArraySize();
         }
         if (team.getName() == null) {
-            this.team[this.count++] = team;
+            this.teams[this.count++] = team;
         } else {
             throw new ConstructionSiteException("Team`s name already exists");
         }
@@ -124,7 +124,7 @@ public class RegConstructionSite implements ConstructionSite {
         }
         if (team instanceof Team) {
             for (int i = 0; i < count; i++) {
-                if (this.team[i].equals(team)) {
+                if (this.teams[i].equals(team)) {
                     return i;
                 }
             }
@@ -139,7 +139,7 @@ public class RegConstructionSite implements ConstructionSite {
 
         if (findTeam(team) != -1) {
             for (int i = findTeam(team); i < this.count - 1; i++) {
-                this.team[i] = this.team[i++];
+                this.teams[i] = this.teams[i++];
                 this.count--;
             }
         } else {
@@ -149,26 +149,21 @@ public class RegConstructionSite implements ConstructionSite {
 
     @Override
     public Team[] getTeams(String string) {
+        Team[] name = new Team[teams.length];
+        int j = 0;
 
-        Team[] temp = new Team[this.team.length];
-        count = 0;
-
-        for (int i = 0; i < this.team.length; i++) {
-            if (this.team[i].getName().equals(string)) {
-
-                temp[count] = this.team[i];
-                count++;
-
+        for (int i = 0; i < this.teams.length; i++) {
+            if (teams[i].getName().equals(getTeams(string))) {
+                name[j++] = teams[i];
             }
         }
         System.out.println("Operation successful.");
-        return temp;
+        return name;
     }
 
     @Override
     public Team[] getTeams() {
-        
-        return this.team;
+        return this.teams;
     }
 
     @Override
@@ -211,12 +206,12 @@ public class RegConstructionSite implements ConstructionSite {
      * method to increase the size of the Team's array
      */
     public void increaseTeamArraySize() {
-        Team[] temp = new Team[team.length * 2];
+        Team[] temp = new Team[teams.length * 2];
 
-        for (int i = 0; i < team.length; i++) {
-            temp[i] = team[i];
+        for (int i = 0; i < teams.length; i++) {
+            temp[i] = teams[i];
         }
-        team = temp;
+        teams = temp;
     }
 
 }

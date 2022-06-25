@@ -66,8 +66,6 @@ public class WorkEvent extends Event {
         final WorkEvent other = (WorkEvent) obj;
         return this.constructionSite == other.constructionSite;
     }
-    
-    
-    
+
     
 }

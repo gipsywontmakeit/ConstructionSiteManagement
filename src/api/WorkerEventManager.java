@@ -9,9 +9,12 @@
  */
 package api;
 
+import estgconstroi.Accident;
 import estgconstroi.Employee;
 import estgconstroi.Event;
 import estgconstroi.EventManager;
+import estgconstroi.Failure;
+import estgconstroi.Incident;
 import estgconstroi.Notifier;
 import estgconstroi.enums.EventPriority;
 import estgconstroi.exceptions.EventManagerException;
@@ -102,7 +105,22 @@ public class WorkerEventManager implements EventManager {
 
     @Override
     public Event[] getEvent(Class type) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Event[] classType = new Event[events.length];
+        int j = 0;
+        if (events != null) {
+            for (int i = 0; i < events.length; i++) {
+                if (events[i] instanceof Accident) {
+                    classType[j++] = events[i];
+                }
+                if (events[i] instanceof Incident) {
+                    classType[j++] = events[i];
+                }
+                if (events[i] instanceof Failure) {
+                    classType[j++] = events[i];
+                }
+            }
+        }
+        return classType;
     }
 
     @Override
@@ -119,7 +137,7 @@ public class WorkerEventManager implements EventManager {
 
     @Override
     public Event[] getEvent(LocalDate ld, LocalDate ld1) {
-        return null;
+        
     }
 
     public void increaseNotifierArraySize() {

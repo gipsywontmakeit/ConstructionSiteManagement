@@ -137,7 +137,23 @@ public class WorkerEventManager implements EventManager {
 
     @Override
     public Event[] getEvent(LocalDate ld, LocalDate ld1) {
-        
+        Event[] dates = new Event[events.length];
+        int j = 0;
+        for (int i = 0; i < events.length; i++) {
+            if (ld.compareTo(this.events[i].getDate()) >= 0 && ld1.compareTo(this.events[i].getDate()) <= 0) {
+                j++;
+            }
+        }
+        dates = new Event[j];
+        j = 0;
+
+        for (int i = 0; i < events.length; i++) {
+            if (ld.compareTo(this.events[i].getDate()) >= 0 && ld1.compareTo(this.events[i].getDate()) <= 0) {
+                dates[j] = events[i];
+                j++;
+            }
+        }
+        return dates;
     }
 
     public void increaseNotifierArraySize() {

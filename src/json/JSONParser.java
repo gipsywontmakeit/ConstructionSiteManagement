@@ -5,6 +5,7 @@
 package json;
 
 import com.google.gson.JsonElement;
+import java.io.FileReader;
 
 /**
  * Nome: José Miguel Pinto de Sousa
@@ -16,6 +17,14 @@ import com.google.gson.JsonElement;
 * Turma: LSIRC
  */
 public class JSONParser {
+
+    static JsonElement parseReader() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    static JsonElement parseReader(FileReader fileReader) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
 

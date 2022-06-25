@@ -44,4 +44,6 @@ public class EquipmentFailure implements Failure {
         return this.notMessage;
     }
     
+    
+    
 }

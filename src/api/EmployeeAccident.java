@@ -12,27 +12,28 @@ package api;
 import estgconstroi.Accident;
 import estgconstroi.ConstructionSite;
 import estgconstroi.Employee;
+import estgconstroi.Event;
+import estgconstroi.enums.EventPriority;
 
 /**
  *
  * @author phrea
  */
-public class EmployeeAccident implements Accident {
+public class EmployeeAccident extends Event implements Accident {
     
     private Employee employee;
     private ConstructionSite constructionSite;
     private String details;
     private String notMessage;
 
-    public EmployeeAccident(Employee employee, ConstructionSite constructionSite, String details, String notMessage) {
+    public EmployeeAccident(Employee employee, ConstructionSite constructionSite, String details, String notMessage, EventPriority priority, String title, Employee reporter) {
+        super(priority, title, reporter);
         this.employee = employee;
         this.constructionSite = constructionSite;
         this.details = details;
         this.notMessage = notMessage;
-    }
+    }    
     
-    
-
     @Override
     public Employee getEmployee() {
         return this.employee;

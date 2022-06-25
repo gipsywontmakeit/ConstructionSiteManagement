@@ -27,7 +27,7 @@ public class NotifierCollection implements Notifier {
     private Employee[] employee = new Employee[MAX_EMPLOYEES];
     private int cont;
 
-    public NotifierCollection(String message, EventPriority eventPriority, Employee employee) {
+    public NotifierCollection(String message, EventPriority eventPriority, Employee[] employee) {
         this.message = message;
         this.eventPriority = eventPriority;
         this.employee = new Employee[MAX_EMPLOYEES];
@@ -55,6 +55,7 @@ public class NotifierCollection implements Notifier {
 
     public void setEmployee(Employee employee) {
         this.employee[this.cont] = employee;
+        cont++;
     }
 
     @Override

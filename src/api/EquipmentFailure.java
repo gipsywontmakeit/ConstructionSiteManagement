@@ -10,19 +10,30 @@
 package api;
 
 import estgconstroi.ConstructionSite;
+import estgconstroi.Employee;
 import estgconstroi.Equipment;
+import estgconstroi.Event;
 import estgconstroi.Failure;
+import estgconstroi.enums.EventPriority;
 
 /**
  *
  * @author phrea
  */
-public class EquipmentFailure implements Failure {
+public class EquipmentFailure extends Event implements Failure {
     
     private Equipment equipment;
     private ConstructionSite constructionSite;
     private String details;
     private String notMessage;
+
+    public EquipmentFailure(Equipment equipment, ConstructionSite constructionSite, String details, String notMessage, EventPriority priority, String title, Employee reporter) {
+        super(priority, title, reporter);
+        this.equipment = equipment;
+        this.constructionSite = constructionSite;
+        this.details = details;
+        this.notMessage = notMessage;
+    }
 
     @Override
     public Equipment getEquipment() {

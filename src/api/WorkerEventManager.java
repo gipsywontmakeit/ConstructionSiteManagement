@@ -67,6 +67,7 @@ public class WorkerEventManager implements EventManager {
         this.events[count] = event;
         this.count++;
         System.out.println("Event added. ");
+
     }
 
     @Override
@@ -195,21 +196,17 @@ public class WorkerEventManager implements EventManager {
     }
 
     private int findEvent(Event event) {
-        count = 0;
 
         if (event == null) {
             return -1;
         }
 
-        if (event instanceof WorkEvent) {
-            for (int i = 0; i < count; i++) {
-                if (events[i].equals(event)) {
-                    return i;
-                }
+        for (int i = 0; i < count; i++) {
+            if (events[i].equals(event)) {
+                return i;
             }
-        } else {
-            return -1;
         }
+
         return -1;
     }
 }

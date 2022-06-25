@@ -12,20 +12,22 @@ package api;
 import estgconstroi.ConstructionSite;
 import estgconstroi.Employee;
 import estgconstroi.Equipment;
+import estgconstroi.enums.EmployeeType;
 import estgconstroi.Team;
 import estgconstroi.enums.EquipmentStatus;
 import estgconstroi.enums.EquipmentType;
 import estgconstroi.exceptions.ConstructionSiteException;
 import java.time.LocalDate;
 
-/**
- *
- * @author phrea
- */
+
 public class RegConstructionSite implements ConstructionSite {
 
+    /**
+     * count for arrays
+     */
     private final int MAX = 100;
     private int count = 0;
+    private int countEquipment = 0;
     /**
      * name of the construction site
      */
@@ -44,18 +46,22 @@ public class RegConstructionSite implements ConstructionSite {
     /**
      * array with the team`s given to the construction site
      */
-    
     private Team[] teams = new Team[MAX];
+
+    /**
+     * array with the equipments of an construction site
+     */
+    private Equipment[] equipments = new Equipment[countEquipment];
 
     /**
      * license date of the construction permit
      */
+    private LocalDate license;
+
     /**
      * responsible that handles the shipyard
      */
     private Employee responsible;
-
-    private LocalDate license;
 
     public RegConstructionSite(String name, String location, String permit, LocalDate license, Employee responsible) {
         this.name = name;
@@ -64,6 +70,7 @@ public class RegConstructionSite implements ConstructionSite {
         this.license = license;
         this.responsible = responsible;
         this.teams = new Team[MAX];
+        this.equipments = new Equipment[countEquipment];
 
     }
 
@@ -109,11 +116,12 @@ public class RegConstructionSite implements ConstructionSite {
         if (this.teams.length == this.MAX) {
             increaseTeamArraySize();
         }
-        if (team.getName() == null) {
-            this.teams[this.count++] = team;
-        } else {
-            throw new ConstructionSiteException("Team`s name already exists");
+        for (int i = 0; i < this.teams.length; i++) {
+            if (team.getName().equals(this.teams[i].getName())) {
+                throw new ConstructionSiteException("Team`s name already exists");
+            }
         }
+        this.teams[this.count++] = team;
 
     }
 
@@ -123,7 +131,7 @@ public class RegConstructionSite implements ConstructionSite {
             return -1;
         }
         if (team instanceof Team) {
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < this.count; i++) {
                 if (this.teams[i].equals(team)) {
                     return i;
                 }
@@ -166,40 +174,117 @@ public class RegConstructionSite implements ConstructionSite {
         return this.teams;
     }
 
+    private int findEquipment(Equipment eqpmnt) {
+
+        if (eqpmnt == null) {
+            return -1;
+        }
+        if (eqpmnt instanceof Equipment) {
+            for (int i = 0; i < this.countEquipment; i++) {
+                if (this.equipments[i].equals(eqpmnt)) {
+                    return i;
+                }
+            }
+        } else {
+            return -1;
+        }
+        return -1;
+    }
+
     @Override
     public void addEquipment(Equipment eqpmnt) throws ConstructionSiteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        if (findEquipment(eqpmnt) != -1) {
+            for (int i = findEquipment(eqpmnt); i < this.countEquipment - 1; i++) {
+                this.equipments[i] = this.equipments[i++];
+                this.countEquipment--;
+            }
+        } else {
+            throw new ConstructionSiteException("Equipment is already in the construction site");
+        }
     }
 
     @Override
     public void removeEquipment(Equipment eqpmnt) throws ConstructionSiteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (eqpmnt instanceof Equipment) {
+            for (int i = 0; i < this.equipments.length; i++) {
+                if (this.equipments[i] == eqpmnt) {
+                    throw new ConstructionSiteException("Equipment is not in the construction site");
+                }
+            }
+
+        } else {
+            throw new ConstructionSiteException("Equipment is not in the construction site");
+        }
     }
 
     @Override
     public Equipment[] getEquipment(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Equipment[] temp = new Equipment[this.equipments.length];
+        count = 0;
+        for (Equipment equipment : this.equipments) {
+            if (equipment.getName().equals(string)) {
+                temp[count] = equipment;
+                count++;
+            }
+        }
+        return temp;
     }
 
     @Override
     public Equipment[] getEquipment(EquipmentStatus es) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Equipment[] temp = new Equipment[this.equipments.length];
+        count = 0;
+        for (Equipment equipment : this.equipments) {
+            if (equipment.getStatus().equals(es)) {
+                temp[count] = equipment;
+                count++;
+            }
+        }
+        return temp;
     }
 
     @Override
     public Equipment[] getEquipment(EquipmentType et) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Equipment[] temp = new Equipment[this.equipments.length];
+        count = 0;
+        for (Equipment equipment : this.equipments) {
+            if (equipment.getType().equals(et)) {
+                temp[count] = equipment;
+                count++;
+            }
+        }
+        return temp;
     }
 
     @Override
     public Equipment[] getEquipment() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.equipments;
     }
 
     @Override
     public boolean isValid() {
+        count = 0;
+        if (getResponsible().getType().equals(EmployeeType.MANAGER)) {
+            if (getTeams().length >= 1) {
+                for (int i = 0; i < this.teams.length; i++) {
+                    if (this.teams[i].equals(EmployeeType.TEAM_LEADER)) {
+                        count += 1;
+                    }
+                }
+                if (count == this.teams.length) {
+                    for (int i = 0; i < this.equipments.length; i++) {
+                        if (this.equipments[i].getStatus().equals(EquipmentStatus.OPERATIVE)) {
+                            if(LocalDate.now().compareTo(this.license)>0){
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
 
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -212,6 +297,18 @@ public class RegConstructionSite implements ConstructionSite {
             temp[i] = teams[i];
         }
         teams = temp;
+    }
+
+    /**
+     * method to increase the size of the Equipment's array
+     */
+    public void increaseEquipmentArraySize() {
+        Equipment[] temp = new Equipment[equipments.length * 2];
+
+        for (int i = 0; i < equipments.length; i++) {
+            temp[i] = equipments[i];
+        }
+        equipments = temp;
     }
 
 }

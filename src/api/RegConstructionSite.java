@@ -19,7 +19,6 @@ import estgconstroi.enums.EquipmentType;
 import estgconstroi.exceptions.ConstructionSiteException;
 import java.time.LocalDate;
 
-
 public class RegConstructionSite implements ConstructionSite {
 
     /**
@@ -117,9 +116,13 @@ public class RegConstructionSite implements ConstructionSite {
             increaseTeamArraySize();
         }
         for (int i = 0; i < this.teams.length; i++) {
-            if (team.getName().equals(this.teams[i].getName())) {
-                throw new ConstructionSiteException("Team`s name already exists");
+
+            if (this.teams[i] != null) {
+                if (team.getName().equals(this.teams[i].getName())) {
+                    throw new ConstructionSiteException("Team`s name already exists");
+                }
             }
+
         }
         this.teams[this.count++] = team;
 
@@ -161,8 +164,10 @@ public class RegConstructionSite implements ConstructionSite {
         int j = 0;
 
         for (int i = 0; i < this.teams.length; i++) {
-            if (teams[i].getName().equals(getTeams(string))) {
-                name[j++] = teams[i];
+            if (this.teams[i] != null) {
+                if (teams[i].getName().equals(getTeams(string))) {
+                    name[j++] = teams[i];
+                }
             }
         }
         System.out.println("Operation successful.");
@@ -223,9 +228,11 @@ public class RegConstructionSite implements ConstructionSite {
         Equipment[] temp = new Equipment[this.equipments.length];
         count = 0;
         for (Equipment equipment : this.equipments) {
-            if (equipment.getName().equals(string)) {
-                temp[count] = equipment;
-                count++;
+            if (equipment != null) {
+                if (equipment.getName().equals(string)) {
+                    temp[count] = equipment;
+                    count++;
+                }
             }
         }
         return temp;
@@ -236,9 +243,11 @@ public class RegConstructionSite implements ConstructionSite {
         Equipment[] temp = new Equipment[this.equipments.length];
         count = 0;
         for (Equipment equipment : this.equipments) {
-            if (equipment.getStatus().equals(es)) {
-                temp[count] = equipment;
-                count++;
+            if (equipment != null) {
+                if (equipment.getStatus().equals(es)) {
+                    temp[count] = equipment;
+                    count++;
+                }
             }
         }
         return temp;
@@ -249,9 +258,11 @@ public class RegConstructionSite implements ConstructionSite {
         Equipment[] temp = new Equipment[this.equipments.length];
         count = 0;
         for (Equipment equipment : this.equipments) {
-            if (equipment.getType().equals(et)) {
-                temp[count] = equipment;
-                count++;
+            if (equipment != null) {
+                if (equipment.getType().equals(et)) {
+                    temp[count] = equipment;
+                    count++;
+                }
             }
         }
         return temp;
@@ -268,14 +279,16 @@ public class RegConstructionSite implements ConstructionSite {
         if (getResponsible().getType().equals(EmployeeType.MANAGER)) {
             if (getTeams().length >= 1) {
                 for (int i = 0; i < this.teams.length; i++) {
-                    if (this.teams[i].equals(EmployeeType.TEAM_LEADER)) {
-                        count += 1;
+                    if (teams[i] != null) {
+                        if (this.teams[i].equals(EmployeeType.TEAM_LEADER)) {
+                            count += 1;
+                        }
                     }
                 }
                 if (count == this.teams.length) {
                     for (int i = 0; i < this.equipments.length; i++) {
                         if (this.equipments[i].getStatus().equals(EquipmentStatus.OPERATIVE)) {
-                            if(LocalDate.now().compareTo(this.license)>0){
+                            if (LocalDate.now().compareTo(this.license) > 0) {
                                 return true;
                             }
                         }

@@ -13,6 +13,9 @@ import estgconstroi.Employee;
 import estgconstroi.Team;
 import estgconstroi.enums.EmployeeType;
 import estgconstroi.exceptions.TeamException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,7 +24,8 @@ import estgconstroi.exceptions.TeamException;
 public class WorkersTeam implements Team {
 
     private final int MAX_EMPLOYEES = 100;
-
+    
+    Scanner input = new Scanner(System.in);
     private String name;
     private int employeesNumber;
     private Employee[] employees = new Employee[MAX_EMPLOYEES];
@@ -114,5 +118,6 @@ public class WorkersTeam implements Team {
         this.employeesNumber = employeesNumber;
     }
     
+
     
 }

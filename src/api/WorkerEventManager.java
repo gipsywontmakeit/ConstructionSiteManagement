@@ -9,17 +9,11 @@
  */
 package api;
 
-import estgconstroi.Accident;
-import estgconstroi.Employee;
-import estgconstroi.Event;
-import estgconstroi.EventManager;
-import estgconstroi.Failure;
-import estgconstroi.Incident;
-import estgconstroi.Notifier;
+import estgconstroi.*;
 import estgconstroi.enums.EventPriority;
 import estgconstroi.exceptions.EventManagerException;
+
 import java.time.LocalDate;
-import java.util.Arrays;
 
 /**
  *
@@ -32,7 +26,9 @@ public class WorkerEventManager implements EventManager {
     private Notifier notifiers[] = new Notifier[MAX];
     private Event events[] = new Event[MAX];
 
-    private int count = 0;
+    private int countEvents = 0;
+
+    private int countNotifiers = 0;
 
     @Override
     public void addNotifier(Notifier ntfr) throws EventManagerException {
@@ -40,8 +36,8 @@ public class WorkerEventManager implements EventManager {
             increaseNotifierArraySize();
         }
 
-        this.notifiers[count] = ntfr;
-        this.count++;
+        this.notifiers[countNotifiers] = ntfr;
+        this.countNotifiers++;
         System.out.println("Notifier added.");
 
     }
@@ -49,11 +45,11 @@ public class WorkerEventManager implements EventManager {
     @Override
     public void removeNotifier(Notifier ntfr) throws EventManagerException {
         if (findNotify(ntfr) != -1) {
-            for (int i = findNotify(ntfr); i < count - 1; i++) {
+            for (int i = findNotify(ntfr); i < countNotifiers - 1; i++) {
                 notifiers[i] = notifiers[i + 1];
             }
-            notifiers[count - 1] = null;
-            count--;
+            notifiers[countNotifiers - 1] = null;
+            countNotifiers--;
             System.out.println("Notifier removed.");
         }
     }
@@ -64,8 +60,8 @@ public class WorkerEventManager implements EventManager {
             increaseEventArraySize();
         }
 
-        this.events[count] = event;
-        this.count++;
+        this.events[countEvents] = event;
+        this.countEvents++;
         System.out.println("Event added. ");
 
     }
@@ -83,20 +79,20 @@ public class WorkerEventManager implements EventManager {
     @Override
     public void removeEvent(Event event) throws EventManagerException {
         if (findEvent(event) != -1) {
-            for (int i = findEvent(event); i < count - 1; i++) {
+            for (int i = findEvent(event); i < countEvents - 1; i++) {
                 events[i] = events[i + 1];
             }
-            events[count - 1] = null;
-            count--;
+            events[countEvents - 1] = null;
+            countEvents--;
             System.out.println("Event removed.");
         }
     }
 
     @Override
     public Event[] getEvent(EventPriority ep) {
-        Event[] priority = new Event[events.length];
+        Event[] priority = new Event[countEvents];
         int j = 0;
-        for (int i = 0; i < events.length; i++) {
+        for (int i = 0; i < countEvents - 1; i++) {
             if (events[i].getPriority().equals(getEvent(ep))) {
                 priority[j++] = events[i];
             }
@@ -106,18 +102,18 @@ public class WorkerEventManager implements EventManager {
 
     @Override
     public Event[] getEvent(Class type) {
-        Event[] classType = new Event[events.length];
+        Event[] classType = new Event[countEvents];
         int j = 0;
         if (events != null) {
-            for (int i = 0; i < events.length; i++) {
+            for (int i = 0; i < countEvents - 1; i++) {
+
                 if (events[i] instanceof Accident) {
-                    classType[j++] = events[i];
-                }
-                if (events[i] instanceof Incident) {
-                    classType[j++] = events[i];
+                    classType[j] = events[i];
+                    j++;
                 }
                 if (events[i] instanceof Failure) {
-                    classType[j++] = events[i];
+                    classType[j] = events[i];
+                    j++;
                 }
             }
         }
@@ -183,7 +179,7 @@ public class WorkerEventManager implements EventManager {
 
         if (notify instanceof NotifierCollection) {
 
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < countNotifiers; i++) {
                 if (notifiers[i].equals(notify)) {
                     return i;
                 }
@@ -201,7 +197,7 @@ public class WorkerEventManager implements EventManager {
             return -1;
         }
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < countEvents; i++) {
             if (events[i].equals(event)) {
                 return i;
             }
